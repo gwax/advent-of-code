@@ -19,14 +19,38 @@ val input = """
 404	1757	358	2293	2626	87	613	95	1658	147	75	930	2394	2349	86	385
 """.trimIndent()
 
-fun checksum(input: String): Int {
-    return input.lines()
+fun String.toIntMatrix(): List<List<Int>> =
+        this.lines()
             .map { it.split("\\s+".toRegex()) }
-            .map { it.map { it.toInt() }}
-            .map { it.max()!! - it.min()!!}
-            .sum()
+            .map { it.map { it.toInt() } }
+
+fun <T> List<T>.combinations(): List<Pair<T,T>> {
+    return this.mapIndexed {
+        index, elem -> this
+            .drop(index + 1)
+            .map { Pair(elem, it) }
+    }.flatten()
 }
 
+fun evenDivides(pairs: List<Pair<Int,Int>>): List<Int> =
+    pairs.mapNotNull { (a, b) -> when {
+        a % b == 0 -> a / b
+        b % a == 0 -> b / a
+        else -> null
+    } }
+
+fun checksumOne(input: String): Int =
+        input.toIntMatrix()
+            .map { it.max()!! - it.min()!!}
+            .sum()
+
+fun checksumTwo(input: String): Int =
+        input.toIntMatrix()
+                .map { it.combinations() }
+                .flatMap(::evenDivides)
+                .sum()
+
 fun main(args: Array<String>) {
-    println(checksum(input))
+    println(checksumOne(input))
+    println(checksumTwo(input))
 }
