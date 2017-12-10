@@ -11,18 +11,9 @@ buildscript {
     }
 }
 
-apply plugin: "application"
 apply plugin: "java"
 apply plugin: "kotlin"
 apply plugin: "idea"
-
-mainClassName = 'com.gwax.aoc2017.RunnerKt'
-
-run {
-    if(System.getProperty("exec.args") != null) {
-        args System.getProperty("exec.args").split()
-    }
-}
 
 repositories {
     mavenCentral()
