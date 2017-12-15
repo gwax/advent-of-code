@@ -1,5 +1,6 @@
 package com.gwax.aoc2017.day15
 
+import org.apache.commons.lang3.time.StopWatch
 import java.math.BigInteger
 
 open class Generator(seed: Int, private val factor: Int) : Iterator<Int> {
@@ -32,7 +33,15 @@ fun judgeGenerators(a: Iterator<Int>, b: Iterator<Int>, trials: Int): Int {
     return matches
 }
 
-fun main(args: Array<String>) {
+fun withTiming(block: () -> Unit) {
+    val stopWatch = StopWatch()
+    stopWatch.start()
+    block()
+    stopWatch.stop()
+    println("Completed in ${stopWatch.time} milliseconds")
+}
+
+fun main(args: Array<String>) = withTiming {
     println(judgeGenerators(
             Generator(aSeed, aFactor),
             Generator(bSeed, bFactor),
