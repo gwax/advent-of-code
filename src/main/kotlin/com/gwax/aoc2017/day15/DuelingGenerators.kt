@@ -3,11 +3,11 @@ package com.gwax.aoc2017.day15
 import java.math.BigInteger
 
 class Generator(seed: Int, factor: Int) : Iterator<Int> {
-    private val factor = BigInteger.valueOf(factor.toLong())
-    private var current = BigInteger.valueOf(seed.toLong())
+    private var current = seed.toLong()
+    private val factor = factor.toLong()
     override fun hasNext(): Boolean = true
     override fun next(): Int {
-        current = (factor * current) % BigInteger.valueOf(2147483647)
+        current = (factor * current) % 2147483647
         return current.toInt()
     }
 }
