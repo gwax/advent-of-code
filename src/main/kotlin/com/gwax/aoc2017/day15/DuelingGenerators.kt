@@ -2,24 +2,20 @@ package com.gwax.aoc2017.day15
 
 import java.math.BigInteger
 
-class Generator(seed: Int, factor: Int) : Iterator<Int> {
+open class Generator(seed: Int, private val factor: Int) : Iterator<Int> {
     private var current = seed.toLong()
-    private val factor = factor.toLong()
     override fun hasNext(): Boolean = true
     override fun next(): Int {
-        current = (factor * current) % 2147483647
+        current = (current * factor) % 2147483647
         return current.toInt()
     }
 }
 
-class FilteredGenerator(gen: Generator, modCriteria: Int) : Iterator<Int> {
-    private val gen = gen
-    private val modCriteria = modCriteria
-    override fun hasNext(): Boolean = true
+class FilteredGenerator(seed: Int, factor: Int, private val modCriteria: Int): Generator(seed, factor) {
     override fun next(): Int {
-        while (true) {
-            val genValue = gen.next()
-            if (genValue % modCriteria == 0) return genValue
+        while(true) {
+            val superValue = super.next()
+            if (superValue % modCriteria == 0) return superValue
         }
     }
 }
@@ -42,12 +38,8 @@ fun main(args: Array<String>) {
             Generator(bSeed, bFactor),
             40_000_000))
     println(judgeGenerators(
-            FilteredGenerator(
-                    Generator(aSeed, aFactor),
-                    4),
-            FilteredGenerator(
-                    Generator(bSeed, bFactor),
-                    8),
+            FilteredGenerator(aSeed, aFactor,4),
+            FilteredGenerator(bSeed, bFactor,8),
             5_000_000))
 }
 
