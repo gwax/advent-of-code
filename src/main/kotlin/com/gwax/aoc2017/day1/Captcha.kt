@@ -10,8 +10,8 @@ fun String.rotate(distance: Int): String {
 
 fun solveCaptcha(input: String, distance: Int): Int {
     return input.zip(input.rotate(distance))
-            .filter {(a, b) -> a == b}
-            .map {(a, _) -> a.toNumber()}
+            .filter { (a, b) -> a == b }
+            .map { (a, _) -> a.toNumber() }
             .sum()
 }
 

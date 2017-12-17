@@ -3,7 +3,6 @@ package com.gwax.aoc2017.day1
 import org.junit.Test
 import kotlin.test.assertEquals
 
-
 class CaptchaTest {
     @Test fun stringRotateTest() {
         assertEquals("bcda", "abcd".rotate(1))

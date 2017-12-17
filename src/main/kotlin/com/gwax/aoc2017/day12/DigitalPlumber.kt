@@ -25,17 +25,14 @@ fun parsePipes(input: String): List<Set<Int>> =
     input.lines()
             .map { it.split("[^\\d]+".toRegex())
                     .map { it.toInt() }
-                    .toSet()}
+                    .toSet() }
             .toList()
 
 fun main(args: Array<String>) {
     val pipeGroups = mergeSets(parsePipes(input))
     println(pipeGroups.find { it.contains(0) }?.size ?: 0)
     println(pipeGroups.size)
-
 }
-
-
 
 val input = """
 0 <-> 122, 874, 1940

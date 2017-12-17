@@ -21,19 +21,19 @@ fun Point.manhattan(): Int = abs(this.first) + abs(this.second)
 fun spiralOut(steps: Int): Point {
     var location = Point(0, 0)
     repeat(steps - 1,
-            {_ -> location = location.next()})
+            { _ -> location = location.next() })
     return location
 }
 
 val aroundOrigin = (-1..1).flatMap { x ->
-    (-1..1).map { y -> Point(x,y) } }
-        .filter { it != Point(0,0)}
+    (-1..1).map { y -> Point(x, y) } }
+        .filter { it != Point(0, 0) }
 
 fun Point.around(): List<Point> = aroundOrigin.map {
     Point(this.first + it.first, this.second + it.second) }
 
 fun partTwo(target: Int): Int {
-    var location = Point(0,0)
+    var location = Point(0, 0)
     var value = 1
     val memoryStore = mutableMapOf(location to value)
     while (value <= target) {

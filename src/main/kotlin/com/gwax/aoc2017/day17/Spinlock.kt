@@ -29,7 +29,7 @@ fun main(args: Array<String>) = withTiming {
     } while (buf.lastValue < 2017)
     println("Found ${buf.contents[buf.position + 1]}")
 
-    var buf2 = Buffer2(0,1,0)
+    var buf2 = Buffer2(0, 1, 0)
     do {
         buf2 = buf2.newBuffer(input)
     } while (buf2.size <= 50_000_000)

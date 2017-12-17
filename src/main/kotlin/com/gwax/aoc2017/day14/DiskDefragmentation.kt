@@ -10,7 +10,7 @@ fun hexToBits(hex: String): List<Boolean> =
                     .toInt(16)
                     .toString(2)
                     .padStart(4, '0')
-                    .map { it == '1' }}
+                    .map { it == '1' } }
 
 fun hashBits(input: String): List<Boolean> {
     val lengths = hashLengths(input)
@@ -21,21 +21,21 @@ fun hashBits(input: String): List<Boolean> {
 }
 
 fun hashGrid(input: String): List<List<Boolean>> =
-        (0..127).map { "${input}-${it}" }
+        (0..127).map { "$input-$it" }
                 .map { hashBits(it) }
 
 fun regionGrid(usedGrid: List<List<Boolean>>): List<List<Int>> {
-    val grid = MutableList(usedGrid.size, {MutableList(usedGrid[0].size, {0})})
+    val grid = MutableList(usedGrid.size, { MutableList(usedGrid[0].size, { 0 }) })
     var nextRegion = 1
     fun handleCell(i: Int, j: Int, region: Int): Boolean {
         if (i < 0 || j < 0 || i >= usedGrid.size || j >= usedGrid[0].size) return false
         if (!usedGrid[i][j]) return false
         if (grid[i][j] != 0) return false
         grid[i][j] = region
-        handleCell(i+1,j,region)
-        handleCell(i-1,j,region)
-        handleCell(i,j+1,region)
-        handleCell(i,j-1,region)
+        handleCell(i + 1, j, region)
+        handleCell(i - 1, j, region)
+        handleCell(i, j + 1, region)
+        handleCell(i, j - 1, region)
         return true
     }
     usedGrid.forEachIndexed {

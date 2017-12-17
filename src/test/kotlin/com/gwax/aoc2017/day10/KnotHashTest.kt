@@ -48,13 +48,13 @@ class DataCircleTest {
 
     @Test
     fun asciiLengthsTest() {
-        assertEquals(listOf(49,44,50,44,51,17,31,73,47,23), hashLengths("1,2,3"))
+        assertEquals(listOf(49, 44, 50, 44, 51, 17, 31, 73, 47, 23), hashLengths("1,2,3"))
     }
 
     @Test
     fun denseHashTest() {
         val circle = DataCircle(256)
-        circle.knotHash(hashLengths(""), times=64)
+        circle.knotHash(hashLengths(""), times = 64)
         assertEquals("a2582a3a0e66e6e86e3812dcb672a272", denseHash(circle))
     }
 }

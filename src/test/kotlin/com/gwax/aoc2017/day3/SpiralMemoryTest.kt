@@ -6,22 +6,22 @@ import org.junit.runners.Parameterized
 import kotlin.test.assertEquals
 
 @RunWith(Parameterized::class)
-class NextPointTest(private val start: Point, private  val end: Point) {
+class NextPointTest(private val start: Point, private val end: Point) {
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{0}->{1}")
-        fun data() : Collection<Array<Point>> {
+        fun data(): Collection<Array<Point>> {
             return listOf(
-                    arrayOf(Point( 0, 0), Point( 1, 0)),
-                    arrayOf(Point( 1, 0), Point( 1, 1)),
-                    arrayOf(Point( 1, 1), Point( 0, 1)),
-                    arrayOf(Point( 0, 1), Point(-1, 1)),
+                    arrayOf(Point(0, 0), Point( 1, 0)),
+                    arrayOf(Point(1, 0), Point( 1, 1)),
+                    arrayOf(Point(1, 1), Point( 0, 1)),
+                    arrayOf(Point(0, 1), Point(-1, 1)),
                     arrayOf(Point(-1, 1), Point(-1, 0)),
-                    arrayOf(Point(-1, 0), Point(-1,-1)),
-                    arrayOf(Point(-1,-1), Point( 0,-1)),
-                    arrayOf(Point( 0,-1), Point( 1,-1)),
-                    arrayOf(Point( 1,-1), Point( 2,-1)),
-                    arrayOf(Point( 2,-1), Point( 2, 0))
+                    arrayOf(Point(-1, 0), Point(-1, -1)),
+                    arrayOf(Point(-1, -1), Point( 0, -1)),
+                    arrayOf(Point(0, -1), Point( 1, -1)),
+                    arrayOf(Point(1, -1), Point( 2, -1)),
+                    arrayOf(Point(2, -1), Point( 2, 0))
             )
         }
     }
@@ -32,16 +32,15 @@ class NextPointTest(private val start: Point, private  val end: Point) {
     }
 }
 
-
 class SpiralOutTest {
     @Test
     fun oneStep() {
-        assertEquals(Point(0,0), spiralOut(1))
+        assertEquals(Point(0, 0), spiralOut(1))
     }
 
     @Test
     fun tenSteps() {
-        assertEquals(Point(2,-1), spiralOut(10))
+        assertEquals(Point(2, -1), spiralOut(10))
     }
 }
 

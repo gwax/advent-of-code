@@ -1,7 +1,6 @@
 package com.gwax.aoc2017.day14
 
 import org.junit.Test
-import kotlin.math.exp
 import kotlin.test.assertEquals
 
 class DiskDefragmentationTest {
@@ -62,7 +61,7 @@ class DiskDefragmentationTest {
             """.trimIndent()
         assertEquals(
                 expected.lines().map { it.map { it.toString().toInt() } },
-                regionGrid(input.lines().map {it.map {it == '#'}})
+                regionGrid(input.lines().map { it.map { it == '#' } })
         )
     }
 }

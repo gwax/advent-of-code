@@ -50,14 +50,14 @@ class SequenceTest {
 class ParseStreamTest(private val input: String, private val expected: Sequence?) {
     companion object {
         @JvmStatic
-        @Parameterized.Parameters(name="{0}")
-        fun data() : Collection<Array<out Any?>> {
+        @Parameterized.Parameters(name = "{0}")
+        fun data(): Collection<Array<out Any?>> {
             return listOf(
                     arrayOf("", null),
                     arrayOf("{}", group {}),
                     arrayOf("<>", garbage("")),
                     arrayOf("<a!bc>", garbage("ac")),
-                    arrayOf("{{},{<a>}}", group { group {}; group { garbage("a") }})
+                    arrayOf("{{},{<a>}}", group { group {}; group { garbage("a") } })
             )
         }
     }
@@ -72,8 +72,8 @@ class ParseStreamTest(private val input: String, private val expected: Sequence?
 class ScoreSequence(private val input: String, private val expected: Int) {
     companion object {
         @JvmStatic
-        @Parameterized.Parameters(name="{0}->{1}")
-        fun data() : Collection<Array<out Any?>> {
+        @Parameterized.Parameters(name = "{0}->{1}")
+        fun data(): Collection<Array<out Any?>> {
             return listOf(
                     arrayOf("{}", 1),
                     arrayOf("{{{}}}", 6),

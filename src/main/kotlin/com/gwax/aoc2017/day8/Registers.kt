@@ -52,7 +52,7 @@ data class Instruction(
 }
 
 fun processInstructions(instructions: List<Instruction>): Pair<Map<String, Int>, Int> {
-    val registerBank = mutableMapOf<String,Int>()
+    val registerBank = mutableMapOf<String, Int>()
     var maxMax = 0
     instructions.forEach {
         val eval = registerBank.getOrDefault(it.evalRegister, 0)
@@ -72,7 +72,6 @@ fun main(args: Array<String>) {
     println(registerBank.values.max() ?: 0)
     println(maxSeen)
 }
-
 
 val input = """
 d dec 461 if oiy <= 1

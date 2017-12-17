@@ -3,7 +3,6 @@ package com.gwax.aoc2017.day11
 import kotlin.math.max
 import kotlin.math.min
 
-
 /*
 
 -+      +--+      +--
@@ -23,29 +22,29 @@ import kotlin.math.min
 */
 
 data class Point(val x: Int, val y: Int) {
-    operator fun plus(other: Point): Point = Point(x + other.x,y + other.y)
-    operator fun minus(other: Point): Point = Point(x - other.x,y - other.y)
-    operator fun times(other: Int): Point = Point (x * other,y * other)
+    operator fun plus(other: Point): Point = Point(x + other.x, y + other.y)
+    operator fun minus(other: Point): Point = Point(x - other.x, y - other.y)
+    operator fun times(other: Int): Point = Point (x * other, y * other)
 
     fun toSteps(): List<Step> = when {
         x == 0 && y == 0 -> listOf()
-        x > 0 && y > 0 -> List(min(x,y),{Step.NE}) + (this - Point(1,1) * min(x,y)).toSteps()
-        x < 0 && y < 0 -> List(-max(x,y),{Step.SW}) + (this - Point(1,1) * max(x,y)).toSteps()
-        else -> List(max(0,x),{Step.SE}) +
-                List(max(0,-x),{Step.NW}) +
-                List(max(0,y),{Step.N}) +
-                List(max(0,-y),{Step.S})
+        x > 0 && y > 0 -> List(min(x, y), { Step.NE }) + (this - Point(1, 1) * min(x, y)).toSteps()
+        x < 0 && y < 0 -> List(-max(x, y), { Step.SW }) + (this - Point(1, 1) * max(x, y)).toSteps()
+        else -> List(max(0, x), { Step.SE }) +
+                List(max(0, -x), { Step.NW }) +
+                List(max(0, y), { Step.N }) +
+                List(max(0, -y), { Step.S })
     }
 }
-fun Iterable<out Point>.sum() = this.reduce { a, b -> a + b}
+fun Iterable<Point>.sum() = this.reduce { a, b -> a + b }
 
 enum class Step(val dPoint: Point) {
-     N(Point(0, 1)),
-    NE(Point(1,1)),
-    SE(Point(1,0)),
-     S(Point(0,-1)),
-    SW(Point(-1,-1)),
-    NW(Point(-1,0));
+    N(Point(0, 1)),
+    NE(Point(1, 1)),
+    SE(Point(1, 0)),
+    S(Point(0, -1)),
+    SW(Point(-1, -1)),
+    NW(Point(-1, 0));
 
     companion object ListFactory {
         fun fromString(input: String) =
@@ -55,13 +54,13 @@ enum class Step(val dPoint: Point) {
 
 fun main(args: Array<String>) {
     val steps = Step.fromString(input)
-    val location = steps.map {it.dPoint}.sum()
+    val location = steps.map { it.dPoint }.sum()
     val optimalSteps = location.toSteps()
 
     println(optimalSteps.size)
 
     var maxDist = 0
-    var currentLocation = Point(0,0)
+    var currentLocation = Point(0, 0)
     steps.forEach {
         currentLocation += it.dPoint
         maxDist = max(maxDist, currentLocation.toSteps().size)

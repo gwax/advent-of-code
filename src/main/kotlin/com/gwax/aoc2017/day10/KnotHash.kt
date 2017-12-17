@@ -55,7 +55,6 @@ fun denseHash(circle: DataCircle): String =
 fun hashLengths(input: String): List<Int> =
         input.map { it.toInt() }.toList() + listOf(17, 31, 73, 47, 23)
 
-
 fun main(args: Array<String>) {
     val lengths1 = input.split(",").map { it.toInt() }
     val circle1 = DataCircle(256)

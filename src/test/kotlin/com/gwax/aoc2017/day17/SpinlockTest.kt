@@ -19,7 +19,7 @@ class SpinlockTest {
 
     @Test
     fun bufferSecondTest() {
-        var buf = Buffer(listOf(0),0)
+        var buf = Buffer(listOf(0), 0)
         buf = buf.newBuffer(3)
         assertEquals(1, buf.contents[1])
         buf = buf.newBuffer(3)
@@ -42,7 +42,7 @@ class SpinlockTest {
 
     @Test
     fun buffer2SecondTest() {
-        var buf = Buffer2(0,1,0)
+        var buf = Buffer2(0, 1, 0)
         buf = buf.newBuffer(3)
         assertEquals(1, buf.value2)
         buf = buf.newBuffer(3)

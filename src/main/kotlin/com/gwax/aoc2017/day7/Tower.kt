@@ -5,7 +5,7 @@ data class TowerProgram(
         var weight: Int? = null,
         var parent: ProgramName? = null,
         val children: MutableList<ProgramName> = mutableListOf())
-typealias Node = Pair<ProgramName,TowerProgram>
+typealias Node = Pair<ProgramName, TowerProgram>
 
 fun TowerProgram.mergeProgream(other: TowerProgram) {
     this.weight = this.weight ?: other.weight
@@ -32,14 +32,14 @@ fun parseNodes(input: String): List<Node> {
             }.toList()
 }
 
-fun buildNodeMap(input: String): Map<ProgramName,TowerProgram> {
-    val nodeMap = mutableMapOf<ProgramName,TowerProgram>()
+fun buildNodeMap(input: String): Map<ProgramName, TowerProgram> {
+    val nodeMap = mutableMapOf<ProgramName, TowerProgram>()
     fun processNode(node: Node) {
         val (name, program) = node
         val existing = nodeMap.getOrPut(name, { TowerProgram() })
         existing.mergeProgream(program)
         existing.children.forEach {
-            nodeMap.getOrPut(it, {TowerProgram()}).mergeProgream(TowerProgram(parent=name))
+            nodeMap.getOrPut(it, { TowerProgram() }).mergeProgream(TowerProgram(parent = name))
         }
     }
     parseNodes(input).forEach(::processNode)
@@ -51,7 +51,7 @@ fun towerWeight(root: ProgramName, nodeMap: Map<ProgramName, TowerProgram>): Int
     return (rootNode.weight ?: 0) + rootNode.children.map { towerWeight(it, nodeMap) }.sum()
 }
 
-fun fixWeight(root: ProgramName, nodeMap: Map<ProgramName,TowerProgram>, target: Int): Int {
+fun fixWeight(root: ProgramName, nodeMap: Map<ProgramName, TowerProgram>, target: Int): Int {
     val rootNode = nodeMap[root]
     if (rootNode == null || rootNode.children.size == 0) return target
     val childToWeight = rootNode.children.map { it to towerWeight(it, nodeMap) }.toMap()

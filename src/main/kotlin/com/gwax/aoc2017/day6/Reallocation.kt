@@ -28,7 +28,7 @@ fun reallocsUntilLoop(banks: List<Int>): Int {
 }
 
 fun reallocCycleLength(banks: List<Int>): Int {
-    val seen = mutableMapOf<List<Int>,Int>()
+    val seen = mutableMapOf<List<Int>, Int>()
     var currentbank = banks
     var count = 0
     while (!seen.containsKey(currentbank)) {

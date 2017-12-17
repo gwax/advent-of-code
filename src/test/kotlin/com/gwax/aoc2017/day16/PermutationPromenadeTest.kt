@@ -11,7 +11,7 @@ class PermutationPromenadeTest {
 
     @Test
     fun exchangeTest() {
-        assertEquals("adcbe", Exchange(1,3).perform("abcde"))
+        assertEquals("adcbe", Exchange(1, 3).perform("abcde"))
     }
 
     @Test
@@ -22,7 +22,7 @@ class PermutationPromenadeTest {
     @Test
     fun readStepTest() {
         assertEquals(Spin(12), readStep("s12"))
-        assertEquals(Exchange(3,14), readStep("x3/14"))
+        assertEquals(Exchange(3, 14), readStep("x3/14"))
         assertEquals(Partner('a', 'c'), readStep("pa/c"))
     }
 

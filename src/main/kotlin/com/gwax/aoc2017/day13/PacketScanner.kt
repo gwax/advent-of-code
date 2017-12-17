@@ -1,6 +1,6 @@
 package com.gwax.aoc2017.day13
 
-typealias Firewall = Map<Int,Int>
+typealias Firewall = Map<Int, Int>
 
 fun buildFirewall(input: String): Firewall =
         input.lines()
@@ -8,7 +8,7 @@ fun buildFirewall(input: String): Firewall =
                     it.split(":")
                             .map { it.trim().toInt() }
                 }
-                .map { it[0] to it[1]}
+                .map { it[0] to it[1] }
                 .toMap()
 
 fun scannerPosition(range: Int, time: Int): Int {
@@ -23,13 +23,13 @@ fun scannerPosition(range: Int, time: Int): Int {
 fun hits(firewall: Firewall, goTime: Int): List<Int> =
     firewall
             .filter {
-                (depth, range) -> scannerPosition(range,goTime + depth) == 0
+                (depth, range) -> scannerPosition(range, goTime + depth) == 0
             }
             .keys
             .toList()
 
 fun severity(firewall: Firewall, hitSpots: List<Int>): Int =
-    hitSpots.map { it * (firewall[it] ?: 0)  }.sum()
+    hitSpots.map { it * (firewall[it] ?: 0) }.sum()
 
 fun doesHit(firewall: Firewall, goTime: Int): Boolean {
     firewall.forEach { (depth, range) ->
@@ -49,7 +49,6 @@ fun main(args: Array<String>) {
     val hitSpots = hits(firewall, 0)
     println(severity(firewall, hitSpots))
     println(findTime(firewall))
-
 }
 
 val input = """

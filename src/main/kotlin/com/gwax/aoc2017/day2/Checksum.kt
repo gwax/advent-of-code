@@ -24,7 +24,7 @@ fun String.toIntMatrix(): List<List<Int>> =
             .map { it.split("\\s+".toRegex()) }
             .map { it.map { it.toInt() } }
 
-fun <T> List<T>.combinations(): List<Pair<T,T>> {
+fun <T> List<T>.combinations(): List<Pair<T, T>> {
     return this.mapIndexed {
         index, elem -> this
             .drop(index + 1)
@@ -32,7 +32,7 @@ fun <T> List<T>.combinations(): List<Pair<T,T>> {
     }.flatten()
 }
 
-fun evenDivides(pairs: List<Pair<Int,Int>>): List<Int> =
+fun evenDivides(pairs: List<Pair<Int, Int>>): List<Int> =
     pairs.mapNotNull { (a, b) -> when {
         a % b == 0 -> a / b
         b % a == 0 -> b / a
@@ -41,7 +41,7 @@ fun evenDivides(pairs: List<Pair<Int,Int>>): List<Int> =
 
 fun checksumOne(input: String): Int =
         input.toIntMatrix()
-            .map { it.max()!! - it.min()!!}
+            .map { it.max()!! - it.min()!! }
             .sum()
 
 fun checksumTwo(input: String): Int =

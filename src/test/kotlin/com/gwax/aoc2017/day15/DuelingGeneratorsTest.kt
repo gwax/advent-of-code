@@ -11,31 +11,31 @@ class DuelingGeneratorsTest {
     fun generatorATest() {
         val generatorA = Generator(testASeed, aFactor)
         assertEquals(1092455, generatorA.next())
-        assertEquals(1181022009,generatorA.next())
-        assertEquals(245556042,generatorA.next())
-        assertEquals(1744312007,generatorA.next())
-        assertEquals(1352636452,generatorA.next())
+        assertEquals(1181022009, generatorA.next())
+        assertEquals(245556042, generatorA.next())
+        assertEquals(1744312007, generatorA.next())
+        assertEquals(1352636452, generatorA.next())
     }
 
     @Test
     fun generatorBTest() {
         val generatorB = Generator(testBSeed, bFactor)
-        assertEquals(430625591,generatorB.next())
-        assertEquals(1233683848,generatorB.next())
-        assertEquals(1431495498,generatorB.next())
-        assertEquals(137874439,generatorB.next())
-        assertEquals(285222916,generatorB.next())
+        assertEquals(430625591, generatorB.next())
+        assertEquals(1233683848, generatorB.next())
+        assertEquals(1431495498, generatorB.next())
+        assertEquals(137874439, generatorB.next())
+        assertEquals(285222916, generatorB.next())
     }
 
     @Test
     fun judgeStringTest() {
 
         val input = listOf(
-                1092455,   430625591,
-                1181022009,  1233683848,
-                245556042,  1431495498,
-                1744312007,   137874439,
-                1352636452,   285222916)
+                1092455, 430625591,
+                1181022009, 1233683848,
+                245556042, 1431495498,
+                1744312007, 137874439,
+                1352636452, 285222916)
         val expected = listOf(
                 "00000000000100001010101101100111",
                 "00011001101010101101001100110111",
