@@ -1,16 +1,18 @@
 package com.gwax.aoc2017.day20
 
-import kotlin.math.abs
+import com.gwax.aoc2017.day2.combinations
+import java.math.BigInteger
 import kotlin.math.sqrt
 
-data class Vector(val x: Long, val y: Long, val z: Long) {
+data class Vector(val x: BigInteger, val y: BigInteger, val z: BigInteger) {
+    constructor(x: Long, y: Long, z: Long) : this(BigInteger.valueOf(x), BigInteger.valueOf(y), BigInteger.valueOf(z))
     constructor(x: Int, y: Int, z: Int) : this(x.toLong(), y.toLong(), z.toLong())
     operator fun plus(other: Vector) = Vector(x + other.x, y + other.y, z + other.z)
-    operator fun times(scalar: Long) = Vector(x * scalar, y * scalar, z * scalar)
-    fun manhattan() = abs(x) + abs(y) + abs(z)
+    operator fun times(scalar: BigInteger) = Vector(x * scalar, y * scalar, z * scalar)
+    fun manhattan() = x.abs() + y.abs() + z.abs()
 
     companion object {
-        val zero: Vector = Vector(0, 0, 0)
+        val zero: Vector = Vector(BigInteger.ZERO, BigInteger.ZERO, BigInteger.ZERO)
         fun fromString(input: String): Vector {
             val (x, y, z) = input.trim('<', '>').split(",").map { it.trim().toLong() }
             return Vector(x, y, z)
@@ -19,16 +21,6 @@ data class Vector(val x: Long, val y: Long, val z: Long) {
 }
 
 data class Point(val position: Vector, val velocity: Vector, val acceleration: Vector) {
-    fun atTime(t: Long): Point =
-        Point(
-                position + velocity * t + acceleration * t * t,
-                velocity + acceleration * t,
-                acceleration)
-    fun tick(): Point = Point(
-            position + velocity,
-            velocity + acceleration,
-            acceleration)
-
     companion object {
         fun fromString(input: String): Point {
             val parts = input.split(", ")
@@ -41,42 +33,73 @@ data class Point(val position: Vector, val velocity: Vector, val acceleration: V
                     parts.getOrDefault("a", Vector.zero))
         }
     }
+
+    fun intersects(other: Point, time: BigInteger): Boolean {
+        val positionAtTime = position + velocity * time + acceleration * time * time
+        val otherPosAtTime = other.position + other.velocity * time + other.acceleration * time * time
+        return positionAtTime == otherPosAtTime
+    }
+
+    fun collisionTime(other: Point): BigInteger? =
+        bigIntegerQuadratics(
+                this.acceleration.x - other.acceleration.x,
+                this.velocity.x - other.velocity.x,
+                this.position.x - other.position.x)
+                .filter { it >= BigInteger.ZERO }
+                .filter { this.intersects(other, it) }
+                .min()
 }
 
-fun longQuadratics(a: Long, b: Long, c: Long): List<Long> {
-    val discriminant = b * b - 4 * a * c
+fun bigIntegerQuadratics(a: BigInteger, b: BigInteger, c: BigInteger): List<BigInteger> {
+    val discriminant = b * b - BigInteger.valueOf(4L) * a * c
     val solutions =  when {
-        discriminant < 0L -> listOf()
-        discriminant == 0L -> listOf(-b / (2L * a))
+        discriminant < BigInteger.ZERO -> listOf()
+        BigInteger.valueOf(2L) * a == BigInteger.ZERO -> listOf(BigInteger.ZERO)
+        discriminant == BigInteger.ZERO -> listOf(-b / (BigInteger.valueOf(2L) * a))
         else -> listOf(
-                (-b + sqrt(discriminant.toDouble()).toLong()) / (2L * a),
-                (-b - sqrt(discriminant.toDouble()).toLong()) / (2L * a)
+                (-b + BigInteger.valueOf(sqrt(discriminant.toDouble()).toLong())) / (BigInteger.valueOf(2L) * a),
+                (-b - BigInteger.valueOf(sqrt(discriminant.toDouble()).toLong())) / (BigInteger.valueOf(2L) * a)
         )
     }
     return solutions.filter {
-        a * it * it + b * it + c == 0L
+        a * it * it + b * it + c == BigInteger.ZERO
     }
 }
 
-fun removeCollisions(points: List<Point>): List<Point> {
-    val groups = points.groupBy { it.position }
-    val singles = groups.filterValues { it.size == 1 }
-    return singles.values.map { it.first() }
+fun allCollisionTimes(points: List<Point>): Map<BigInteger, List<Pair<Point, Point>>> {
+    val pairs = points.combinations()
+    val timeToPairs = mutableMapOf<BigInteger, MutableList<Pair<Point, Point>>>()
+    pairs.forEach { (a, b) ->
+        val collisionTime = a.collisionTime(b)
+        if (collisionTime != null) {
+            val existing = timeToPairs.getOrPut(collisionTime, { mutableListOf() })
+            existing.add(Pair(a, b))
+        }
+    }
+    return timeToPairs.map { (a, b) -> a to b.toList() }.toMap()
 }
 
-fun step(points: List<Point>): List<Point> =
-        removeCollisions(points).map { it.tick() }
+fun removeCollisions(points: List<Point>): List<Point> {
+    val remaining = points.toMutableSet()
+    val collisions = allCollisionTimes(points).toSortedMap()
+    collisions.values.forEach {
+        it.forEach { (a, b) ->
+            if (remaining.contains(a) && remaining.contains(b)) {
+                remaining.remove(a)
+                remaining.remove(b)
+            }
+        }
+    }
+    return remaining.toList()
+}
 
 fun main(args: Array<String>) {
     val points = input.lines().map { Point.fromString(it) }
     val eventualClosest = points.minBy { it.acceleration.manhattan() }
     println(points.indexOf(eventualClosest))
 
-    var points2 = points
-    repeat(100_000, {
-        points2 = step(points2)
-    })
-    println(points2.size)
+    val nonCollided = removeCollisions(points)
+    println(nonCollided.size)
 }
 
 val input = """
